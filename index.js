@@ -12,7 +12,13 @@ app.use(
 app.use(express.json())
 
 // rota inicial / endpoint
+app.get('/', (req, res) => {
 
+
+    // mostrar req
+
+    res.json({message: 'Oi Express!' })
+})
 
 
 // entregar uma porta
