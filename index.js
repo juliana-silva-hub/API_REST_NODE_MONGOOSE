@@ -1,5 +1,6 @@
 // config inicial
 const express = require('express')
+const mongoose = require('mongoose')
 const app = express()
 
 // forma de ler JSON/ middlewares
@@ -22,4 +23,15 @@ app.get('/', (req, res) => {
 
 
 // entregar uma porta
-app.listen(3000)
+const DB_USER = 'Juliana'
+const DB_PASSWORD = encodeURIComponent('HTM3CJjpTMUsnXt')
+
+mongoose.connect(
+        `mongodb+srv://${DB_USER}:${DB_PASSWORD}@apicluster.xzuhg.mongodb.net/bancodaapi?retryWrites=true&w=majority`,
+    )
+    .then(() => {
+        console.log("Conectamos ao MongoDB!")
+        app.listen(3000)
+    })
+    .catch((err) => console.log(err))
+
