@@ -1,9 +1,9 @@
 // config inicial
+require('dotenv'). config()
 const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
 
-const Person = require('./models/Person')
 
 // forma de ler JSON/ middlewares
 app.use(
@@ -15,31 +15,10 @@ app.use(
 app.use(express.json())
 
 // rotas da API
-app.post('/person', async (req, res) => {
-   
-   //req.body
+const personRoutes = require('./routes/personRoutes') 
 
-   // {name: "Juliana", salary: 5000, approved: false}
-   const {name, salary, approved} = req.body
+app.use('/person', personRoutes)
 
-   const person = {
-     name,
-     salary,
-     approved
-   }
-
-   try {
-
-     // criando dados
-     await Person.create(person)
-
-     res.status(201). json({message: 'Pessoa inserida no sistema com sucesso!'})
-   } catch (error) {
-     res.status(500). json({error: error})
-   }
-
-})
- 
 // rota inicial / endpoint
 app.get('/', (req, res) => {
 
@@ -51,8 +30,8 @@ app.get('/', (req, res) => {
 
 
 // entregar uma porta
-const DB_USER = 'Juliana'
-const DB_PASSWORD = encodeURIComponent('HTM3CJjpTMUsnXt')
+const DB_USER = process.env.DB_USER
+const DB_PASSWORD = encodeURIComponent(process.env.DB_PASSWORD)
 
 mongoose.connect(
         `mongodb+srv://${DB_USER}:${DB_PASSWORD}@apicluster.xzuhg.mongodb.net/bancodaapi?retryWrites=true&w=majority`,
